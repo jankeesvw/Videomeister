@@ -14,7 +14,6 @@ package nl.base42.subtitles {
 		}
 
 		public function isVisibleOnTime(inCurrentTime : Number) : Boolean {
-			status("start: " + start + " end: " + end + " current: " + inCurrentTime);
 			return (inCurrentTime > start && inCurrentTime < end);
 		}
 

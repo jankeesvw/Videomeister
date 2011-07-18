@@ -13,6 +13,7 @@ package nl.base42.subtitles {
 			for each (var block : String in blocks) {
 				translation = new SubtitleData();
 				lines = block.split('\n');
+
 				for each (var line : String in lines) {
 					// all lines in a translation block
 					if (trim(line) != "") {
@@ -26,7 +27,6 @@ package nl.base42.subtitles {
 								translation.end = stringToSeconds(timecodes[1]);
 							}
 						} else {
-							debug("parseSRT: " + line);
 							if (translation.text.length != 0) line = "\n" + trim(line);
 							translation.text += line;
 						}
@@ -37,7 +37,16 @@ package nl.base42.subtitles {
 			return result;
 		}
 
-		public static function trim(p_string : String) : String {
+		public static function getCurrentSubtitle(inTime : Number, inSubtitles : Array) : String {
+			for each (var subtitle : SubtitleData in inSubtitles) {
+				if (subtitle.isVisibleOnTime(inTime)) {
+					return subtitle.text;
+				}
+			}
+			return "";
+		}
+
+		private static function trim(p_string : String) : String {
 			if (p_string == null) {
 				return '';
 			}
@@ -51,7 +60,7 @@ package nl.base42.subtitles {
 		 * Special thanks to Thijs Broerse of Media Monks!
 		 * 
 		 **/
-		public static function stringToSeconds(string : String) : Number {
+		private static function stringToSeconds(string : String) : Number {
 			var arr : Array = string.split(':');
 			var sec : Number = 0;
 			if (string.substr(-1) == 's') {
@@ -72,15 +81,6 @@ package nl.base42.subtitles {
 				sec = Number(string);
 			}
 			return sec;
-		}
-
-		public static function getCurrentSubtitle(inTime : Number, inSubtitles : Array) : String {
-			for each (var subtitle : SubtitleData in inSubtitles) {
-				if (subtitle.isVisibleOnTime(inTime)) {
-					return subtitle.text;
-				}
-			}
-			return "";
 		}
 	}
 }

@@ -4,7 +4,6 @@ package {
 	import logmeister.LogMeister;
 	import logmeister.connectors.TrazzleConnector;
 
-	import nl.base42.subtitles.SubtitleData;
 	import nl.base42.subtitles.SubtitleParser;
 
 	import com.bit101.components.Slider;
@@ -34,7 +33,7 @@ package {
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 
-			LogMeister.addLogger(new TrazzleConnector(stage, "Video"));
+			// LogMeister.addLogger(new TrazzleConnector(stage, "Video"));
 
 			_pyroInstance = new Pyro(WIDTH, HEIGHT);
 			_pyroInstance.play("trailer_big_buck_bunny.m4v");
@@ -63,12 +62,7 @@ package {
 		}
 
 		private function handleSubtitleLoaded(event : LoaderEvent) : void {
-			// _subtitles = SubtitleParser.parseSRT(DataLoader(event.currentTarget).content);
-
-			_subtitles = [];
-			_subtitles.push(new SubtitleData("test subtitle 1", 0, 2));
-			_subtitles.push(new SubtitleData("test subtitle 2", 2, 3));
-			_subtitles.push(new SubtitleData("test subtitle 3 \n blabla", 3, 10));
+			_subtitles = SubtitleParser.parseSRT(DataLoader(event.currentTarget).content);
 		}
 
 		private function handleSliderChange(event : Event) : void {
